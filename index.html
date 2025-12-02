@@ -76,25 +76,31 @@
         };
 
         // 👉 YOUR REAL WEBHOOK URL
-        const WEBHOOK_URL = "https://mirtha-coolish-molly.ngrok-free.dev/webhook/cf87bf13-387a-4d39-b940-73d47871c2c6";
+        const WEBHOOK_URL = "https://mirtha-coolish-molly.ngrok-free.dev/webhook/f37dd401-795b-4a41-8476-e9ecec5be054";
+
 
 fetch(WEBHOOK_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)
 })
-.then(res => res.json())
-.then(result => {
-    if (result.status === "success") {
-        document.getElementById("status").innerHTML = "Message sent ✔️";
-    } else {
+.then(async res => {
+    try {
+        const result = await res.json();
+        if (result.status === "success") {
+            document.getElementById("status").innerHTML = "Message sent ✔️";
+        } else {
+            document.getElementById("status").innerHTML = "Failed ❌";
+        }
+    } catch (e) {
         document.getElementById("status").innerHTML = "Failed ❌";
     }
 })
+
 .catch(err => {
-    console.log(err);
-    document.getElementById("status").innerHTML = "Failed ❌";
+    document.getElementById("status").innerText = "Failed ❌";
 });
+
 
 
     }
