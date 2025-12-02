@@ -78,22 +78,24 @@
         // 👉 YOUR REAL WEBHOOK URL
         const WEBHOOK_URL = "https://mirtha-coolish-molly.ngrok-free.dev/webhook/cf87bf13-387a-4d39-b940-73d47871c2c6";
 
-
-        fetch(WEBHOOK_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
-        })
-        .then(res => {
-    if (res.ok) {
+fetch(WEBHOOK_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+})
+.then(res => res.json())
+.then(result => {
+    if (result.status === "success") {
         document.getElementById("status").innerHTML = "Message sent ✔️";
     } else {
         document.getElementById("status").innerHTML = "Failed ❌";
     }
 })
 .catch(err => {
+    console.log(err);
     document.getElementById("status").innerHTML = "Failed ❌";
 });
+
 
     }
 </script>
