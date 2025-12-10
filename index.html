@@ -1,110 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="google-site-verification" content="xxxxx" />
+
     <title>RadiTech Customer Care</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background: #f3f5ff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background: #f3f5ff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
 
-        .container {
-            background: #fff;
-            width: 350px;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
+      .container {
+        background: #fff;
+        width: 350px;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
 
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
 
-        input, textarea {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border: 1px solid #aaa;
-            border-radius: 6px;
-        }
+      input,
+      textarea {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        border: 1px solid #aaa;
+        border-radius: 6px;
+      }
 
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #4A65F6;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-        }
+      button {
+        width: 100%;
+        padding: 12px;
+        background: #4a65f6;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+      }
 
-        button:hover {
-            background: #3048d6;
-        }
+      button:hover {
+        background: #3048d6;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
+    <div class="container">
+      <h2>24/7 Customer Care</h2>
 
-<div class="container">
-    <h2>24/7 Customer Care</h2>
+      <input type="text" id="name" placeholder="Your Name" />
+      <input type="email" id="email" placeholder="Your Email" />
+      <textarea id="message" placeholder="Your Message" rows="5"></textarea>
 
-    <input type="text" id="name" placeholder="Your Name">
-    <input type="email" id="email" placeholder="Your Email">
-    <textarea id="message" placeholder="Your Message" rows="5"></textarea>
+      <button onclick="sendMessage()">Send Message</button>
 
-    <button onclick="sendMessage()">Send Message</button>
+      <p id="status"></p>
+    </div>
 
-    <p id="status"></p>
-</div>
-
-<script>
-    function sendMessage() {
+    <script>
+      function sendMessage() {
         const data = {
-            name: document.getElementById("name").value,
-            email: document.getElementById("email").value,
-            message: document.getElementById("message").value
+          name: document.getElementById("name").value,
+          email: document.getElementById("email").value,
+          message: document.getElementById("message").value,
         };
 
         // 👉 YOUR REAL WEBHOOK URL
-        const WEBHOOK_URL = "https://mirtha-coolish-molly.ngrok-free.dev/webhook/f37dd401-795b-4a41-8476-e9ecec5be054";
+        const WEBHOOK_URL =
+          "https://mirtha-coolish-molly.ngrok-free.dev/webhook/f37dd401-795b-4a41-8476-e9ecec5be054";
 
+        fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        })
+          .then(async (res) => {
+            try {
+              const result = await res.json();
+              if (result.status === "success") {
+                document.getElementById("status").innerHTML = "Message sent ✔️";
+              } else {
+                document.getElementById("status").innerHTML = "Failed ❌";
+              }
+            } catch (e) {
+              document.getElementById("status").innerHTML = "Failed ❌";
+            }
+          })
 
-fetch(WEBHOOK_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data)
-})
-.then(async res => {
-    try {
-        const result = await res.json();
-        if (result.status === "success") {
-            document.getElementById("status").innerHTML = "Message sent ✔️";
-        } else {
-            document.getElementById("status").innerHTML = "Failed ❌";
-        }
-    } catch (e) {
-        document.getElementById("status").innerHTML = "Failed ❌";
-    }
-})
-
-.catch(err => {
-    document.getElementById("status").innerText = "Failed ❌";
-});
-
-
-
-    }
-</script>
-
-</body>
+          .catch((err) => {
+            document.getElementById("status").innerText = "Failed ❌";
+          });
+      }
+    </script>
+  </body>
 </html>
